@@ -34,6 +34,10 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     if: success()
+    env:
+      MLFLOW_USERNAME: ${{ secrets.MLFLOW_USERNAME }}
+      MLFLOW_PASSWORD: ${{ secrets.MLFLOW_PASSWORD }}
+      MLFLOW_URL: ${{ secrets.MLFLOW_URL }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -53,7 +57,7 @@ jobs:
         env:
           MLFLOW_TRACKING_URI: https://mlflow.ml.brain.cs.ait.ac.th/
         run: |
-          python scripts/deploy_model.py
+          python deploy_model.py
 
       - name: Deployment success
         run: |

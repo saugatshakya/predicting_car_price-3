@@ -1,12 +1,11 @@
 import mlflow
 import pickle
 import pandas as pd
-from app.model.st125986_a3_model import CarPricePredictor
-
+from app.src.logistic_regression import *
+import joblib
 # Load local model
-with open("app/model/st125986-a3-model.pkl", "rb") as f:
-    predictor = pickle.load(f)
 
+predictor = joblib.load("app/model/st125986-a3-model.pkl")
 # Wrap model for MLflow
 class CarPriceWrapper(mlflow.pyfunc.PythonModel):
     def __init__(self, predictor):
