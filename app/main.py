@@ -6,8 +6,15 @@ import numpy as np
 from werkzeug.exceptions import BadRequest
 from linear_reg import LinearRegression
 import pandas as pd
+import mlflow
+
 
 app = flask.Flask(__name__, template_folder='templates')
+
+mlflow_tracking_url = os.environ.get("MLFLOW_TRACKING_URL", "https://mlflow.ml.brain.cs.ait.ac.th/")
+
+mlflow.set_tracking_uri(mlflow_tracking_url)
+mlflow.set_experiment("st125986-a3")
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -100,7 +107,30 @@ def predict_v2():
         logger.error(f"Prediction error: {e}", exc_info=True)
         return flask.jsonify({"error": "Internal Server Error"}), 500
 
+@app.route('/classify', methods=["POST"])
+def classify():
+    try:
+        data = flask.request.get_json(force=True)
+        model_uri = "models:/st125986-a3-model/latest"
+        loaded_model = mlflow.pyfunc.load_model(model_uri)
+        df = pd.DataFrame([data])
 
+        # Explicit dtype casting
+        df = df.astype({
+        "year": "int64",
+        "km_driven": "int64",
+        "owner": "int64",
+        "mileage": "float64",
+        "engine": "float64",
+        "max_power": "float64",
+        "seats": "float64",
+        })
+        prediction = loaded_model.predict(df)
+        print(f"{prediction[0]}")
+        return flask.jsonify({"class": int(prediction[0])})
+    except Exception as e:
+        logger.error(f"Prediction error: {e}", exc_info=True)
+        return flask.jsonify({"error": "Internal Server Error"}), 500
 
 @app.route('/health', methods=['GET'])
 def health():
@@ -122,5 +152,5 @@ if __name__ == '__main__':
 }
     print("Example prediction:", predict_car_price(example_car, model_data))
     print("Example prediction v2:", predict_car_price_v2(example_car, new_model))
-    port = int(os.environ.get("PORT", 5000))
+    port = int(os.environ.get("PORT", 5001))
     app.run(host='0.0.0.0', port=port)  # no debug in prod

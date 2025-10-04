@@ -5,5 +5,7 @@ services:
       - "5001:5000"
     environment:
       - FLASK_ENV=production
+      - MLFLOW_TRACKING_USERNAME=admin
+      - MLFLOW_TRACKING_PASSWORD=password
     volumes:
       - .:/app

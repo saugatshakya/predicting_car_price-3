@@ -177,6 +177,9 @@
           </li>
           <li><a href="#" onclick="showPage('old')">Old Model</a></li>
           <li><a href="#" onclick="showPage('new')">New Model</a></li>
+          <li>
+            <a href="#" onclick="showPage('classification')">Classification</a>
+          </li>
         </ul>
       </div>
     </nav>
@@ -227,12 +230,7 @@
 
           <div class="form-group">
             <label for="old_km_driven">KM Driven:</label>
-            <input
-              type="number"
-              id="old_km_driven"
-              name="km_driven"
-              required
-            />
+            <input type="number" id="old_km_driven" name="km_driven" required />
           </div>
 
           <div class="form-group">
@@ -264,12 +262,7 @@
 
           <div class="form-group">
             <label for="old_mileage">Mileage (kmpl):</label>
-            <input
-              type="number"
-              id="old_mileage"
-              name="mileage"
-              required
-            />
+            <input type="number" id="old_mileage" name="mileage" required />
           </div>
 
           <button type="submit">Predict Price</button>
@@ -316,32 +309,17 @@
 
           <div class="form-group">
             <label for="new_km_driven">KM Driven:</label>
-            <input
-              type="number"
-              id="new_km_driven"
-              name="km_driven"
-              required
-            />
+            <input type="number" id="new_km_driven" name="km_driven" required />
           </div>
 
           <div class="form-group">
             <label for="new_engine">Engine (CC):</label>
-            <input
-              type="number"
-              id="new_engine"
-              name="engine"
-              required
-            />
+            <input type="number" id="new_engine" name="engine" required />
           </div>
 
           <div class="form-group">
             <label for="new_max_power">Max Power (HP):</label>
-            <input
-              type="number"
-              id="new_max_power"
-              name="max_power"
-              required
-            />
+            <input type="number" id="new_max_power" name="max_power" required />
           </div>
 
           <div class="form-group">
@@ -363,12 +341,7 @@
 
           <div class="form-group">
             <label for="new_mileage">Mileage (kmpl):</label>
-            <input
-              type="number"
-              id="new_mileage"
-              name="mileage"
-              required
-            />
+            <input type="number" id="new_mileage" name="mileage" required />
           </div>
 
           <button type="submit">Predict Price</button>
@@ -377,6 +350,156 @@
         <div id="newOutput" class="output-box">
           Click submit to see prediction results
         </div>
+      </div>
+    </div>
+    <!-- Classification Model Page -->
+    <div id="classification" class="page">
+      <h1>Classification Model - Car Price Category</h1>
+
+      <div class="info-box">
+        <h3>About the Classification Model:</h3>
+        <p>
+          This model classifies cars into price categories rather than
+          predicting exact prices. It helps you understand which price range
+          your car falls into.
+        </p>
+      </div>
+
+      <form id="classificationForm">
+        <div class="form-group">
+          <label for="class_year">Year:</label>
+          <input
+            type="number"
+            id="class_year"
+            name="year"
+            max="2025"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="class_km_driven">KM Driven:</label>
+          <input type="number" id="class_km_driven" name="km_driven" required />
+        </div>
+
+        <div class="form-group">
+          <label for="class_fuel">Fuel Type:</label>
+          <select id="class_fuel" name="fuel" required>
+            <option value="">Select Fuel Type</option>
+            <option value="Diesel">Diesel</option>
+            <option value="Petrol">Petrol</option>
+            <option value="CNG">CNG</option>
+            <option value="LPG">LPG</option>
+            <option value="Electric">Electric</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="class_seller_type">Seller Type:</label>
+          <select id="class_seller_type" name="seller_type" required>
+            <option value="">Select Seller Type</option>
+            <option value="Individual">Individual</option>
+            <option value="Dealer">Dealer</option>
+            <option value="Trustmark Dealer">Trustmark Dealer</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="class_transmission">Transmission:</label>
+          <select id="class_transmission" name="transmission" required>
+            <option value="">Select Transmission</option>
+            <option value="Manual">Manual</option>
+            <option value="Automatic">Automatic</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="class_owner">Owner:</label>
+          <input
+            type="number"
+            id="class_owner"
+            name="owner"
+            min="0"
+            max="5"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="class_mileage">Mileage (kmpl):</label>
+          <input
+            type="number"
+            step="0.1"
+            id="class_mileage"
+            name="mileage"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="class_engine">Engine (CC):</label>
+          <input
+            type="number"
+            step="0.1"
+            id="class_engine"
+            name="engine"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="class_max_power">Max Power (HP):</label>
+          <input
+            type="number"
+            step="0.1"
+            id="class_max_power"
+            name="max_power"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="class_seats">Seats:</label>
+          <input
+            type="number"
+            step="0.1"
+            id="class_seats"
+            name="seats"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="class_brand">Brand:</label>
+          <select id="class_brand" name="brand" required>
+            <option value="">Select Brand</option>
+            <option value="Maruti">Maruti</option>
+            <option value="Hyundai">Hyundai</option>
+            <option value="Honda">Honda</option>
+            <option value="Toyota">Toyota</option>
+            <option value="Tata">Tata</option>
+            <option value="Mahindra">Mahindra</option>
+            <option value="Ford">Ford</option>
+            <option value="Chevrolet">Chevrolet</option>
+            <option value="Renault">Renault</option>
+            <option value="Nissan">Nissan</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="class_brand_type">Brand Type:</label>
+          <select id="class_brand_type" name="brand_type" required>
+            <option value="">Select Brand Type</option>
+            <option value="Mass-Market">Mass-Market</option>
+            <option value="Premium">Premium</option>
+          </select>
+        </div>
+
+        <button type="submit">Classify Car</button>
+      </form>
+
+      <div id="classificationOutput" class="output-box">
+        Click submit to see classification results
       </div>
     </div>
 
@@ -477,6 +600,82 @@
 
             if (response.ok) {
               outputDiv.innerHTML = `<div class="price-result">Predicted Price: ${result.price.toLocaleString()}</div>`;
+            } else {
+              outputDiv.innerHTML = `<div class="error">Error: ${result.error}</div>`;
+            }
+          } catch (error) {
+            outputDiv.innerHTML = `<div class="error">Network error: ${error.message}</div>`;
+          } finally {
+            submitButton.disabled = false;
+          }
+        });
+
+      // Handle Classification Model Form Submission
+      document
+        .getElementById("classificationForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          const outputDiv = document.getElementById("classificationOutput");
+          const submitButton = this.querySelector('button[type="submit"]');
+
+          // Disable button and show loading
+          submitButton.disabled = true;
+          outputDiv.innerHTML =
+            '<div class="loading">Classifying... Please wait</div>';
+
+          // Collect form data
+          const formData = new FormData(this);
+          const data = {};
+          for (let [key, value] of formData.entries()) {
+            // Keep strings as strings
+            if (
+              [
+                "fuel",
+                "seller_type",
+                "transmission",
+                "brand",
+                "brand_type",
+              ].includes(key)
+            ) {
+              data[key] = value;
+            }
+            // Convert to float for mileage, engine, max_power
+            else if (["mileage", "engine", "max_power"].includes(key)) {
+              data[key] = parseFloat(value);
+            }
+            // Convert to integer for year, km_driven, owner, seats
+            else {
+              data[key] = parseInt(value);
+            }
+          }
+
+          try {
+            const response = await fetch("/classify", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(data),
+            });
+
+            const result = await response.json();
+            console.log(result);
+            if (response.ok) {
+              // Map numeric categories to descriptive labels
+              const categoryMap = {
+                0: "Budget (Cheapest)",
+                1: "Economy",
+                2: "Mid-Range",
+                3: "Premium (Expensive)",
+              };
+
+              console.log(result.class);
+              console.log(categoryMap[result.class]);
+              const categoryLabel =
+                categoryMap[result.class] || `Category ${result.class}`;
+
+              outputDiv.innerHTML = `<div class="price-result">Price Category: ${categoryLabel}</div>`;
             } else {
               outputDiv.innerHTML = `<div class="error">Error: ${result.error}</div>`;
             }
