@@ -27,7 +27,7 @@ jobs:
 
       - name: Run model tests
         run: |
-          python test_model.py
+          python test.py
 
   deploy:
     name: Deploy if Tests Pass
