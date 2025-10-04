@@ -35,8 +35,8 @@ jobs:
     runs-on: ubuntu-latest
     if: success()
     env:
-      MLFLOW_USERNAME: ${{ secrets.MLFLOW_USERNAME }}
-      MLFLOW_PASSWORD: ${{ secrets.MLFLOW_PASSWORD }}
+      MLFLOW_TRACKING_USERNAME: ${{ secrets.MLFLOW_USERNAME }}
+      MLFLOW_TRACKING_PASSWORD: ${{ secrets.MLFLOW_PASSWORD }}
       MLFLOW_URL: ${{ secrets.MLFLOW_URL }}
     steps:
       - name: Checkout code
