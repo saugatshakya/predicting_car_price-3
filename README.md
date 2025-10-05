@@ -115,5 +115,5 @@ Each time you push code to GitHub:
 
 **Saugat Shakya**
 Founding Member at **Galli Maps** | AR & AI Enthusiast
-📧 [LinkedIn](https://www.linkedin.com/in/saugatshakya)
+📧 [LinkedIn](https://np.linkedin.com/in/saugat-shakya-1a6b561a9)
 
