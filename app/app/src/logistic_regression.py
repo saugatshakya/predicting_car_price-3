@@ -106,27 +106,46 @@ class LogisticRegression:
         plt.show()
 
 
-
 class CarPricePredictor:
-    def __init__(self, model, label_encoders, mean, std):
+    def __init__(self, model, encoder, scaler, poly, numeric_cols, cat_cols, mean, std):
         self.model = model
-        self.label_encoders = label_encoders
-        self.mean = mean
-        self.std = std
-    
+        self.encoder = encoder          # OrdinalEncoder fitted on train data
+        self.scaler = scaler            # StandardScaler fitted on numeric train columns
+        self.poly = poly                # PolynomialFeatures fitted on train data
+        self.numeric_cols = numeric_cols
+        self.cat_cols = cat_cols
+        self.mean = mean                # mean of polynomial features (train)
+        self.std = std                  # std of polynomial features (train)
+
     def preprocess(self, X_raw):
-        X = X_raw.copy()
-        # Label encode categorical columns
-        for col, le in self.label_encoders.items():
-            if col in X:
-                X[col] = le.transform([X[col]])[0] if isinstance(X, pd.Series) else le.transform(X[col])
-        # Convert to numpy array
-        if isinstance(X, pd.Series):
-            X = X.to_numpy().reshape(1, -1)
-        # Standardize
-        X_std = (X - self.mean) / self.std
+        # Convert Series to DataFrame if needed
+        if isinstance(X_raw, pd.Series):
+            X = X_raw.to_frame().T
+        else:
+            X = X_raw.copy()
+
+        # Check required columns
+        for col in self.numeric_cols + self.cat_cols:
+            if col not in X.columns:
+                raise ValueError(f"Missing column: {col}")
+
+        # Encode categorical columns
+        X[self.cat_cols] = self.encoder.transform(X[self.cat_cols])
+
+        # Scale numeric columns
+        X[self.numeric_cols] = self.scaler.transform(X[self.numeric_cols])
+
+        # Reorder columns exactly as training
+        X = X[self.numeric_cols + self.cat_cols]
+
+        # Apply polynomial features
+        X_poly = self.poly.transform(X)
+
+        # Standardize polynomial features
+        X_std = (X_poly - self.mean) / self.std
+
         return X_std
-    
+
     def predict(self, X_raw):
         X_processed = self.preprocess(X_raw)
         return np.argmax(self.model._predict(X_processed), axis=1)
