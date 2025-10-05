@@ -13,8 +13,10 @@ app = flask.Flask(__name__, template_folder='templates')
 
 mlflow_tracking_url = os.environ.get("MLFLOW_TRACKING_URL", "https://mlflow.ml.brain.cs.ait.ac.th/")
 
-mlflow.set_tracking_uri(mlflow_tracking_url)
+mlflow.set_tracking_uri("https://mlflow.ml.brain.cs.ait.ac.th/")
 mlflow.set_experiment("st125986-a3")
+model_uri = "models:/st125986-a3-model/latest"
+loaded_model = mlflow.pyfunc.load_model(model_uri)
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -111,10 +113,11 @@ def predict_v2():
 def classify():
     try:
         data = flask.request.get_json(force=True)
+        print(f"data0: {data}")
         model_uri = "models:/st125986-a3-model/latest"
         loaded_model = mlflow.pyfunc.load_model(model_uri)
         df = pd.DataFrame([data])
-
+        print(f"data1: {data}")
         # Explicit dtype casting
         df = df.astype({
         "year": "int64",
@@ -125,6 +128,7 @@ def classify():
         "max_power": "float64",
         "seats": "float64",
         })
+        print(f"data2: {df}")
         prediction = loaded_model.predict(df)
         print(f"{prediction[0]}")
         return flask.jsonify({"class": int(prediction[0])})
